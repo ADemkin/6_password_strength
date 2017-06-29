@@ -1,6 +1,8 @@
 # Password Strength Calculator
 
-[TODO. There will be project description]
+This function rates your password from 1 to 10.
+Anton Demkin, 2017
+antondemkin@yandex.ru
 
 # Project Goals
 

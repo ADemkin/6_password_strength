@@ -2,32 +2,34 @@
 This script rates your password from 1 to 10.
 
 '''
+from collections import Counter
 
 def get_password_strength(password):
     '''
     This function returns an integer from 1 to 10 depending on a password strength.
     usage: get_password_strength(password)
     '''
-    digits = '0123456789'
+    digits = [str(i) for i in range(0,10)]
     special = '!@#$%^&*()_+=-;|/?.,`~][{}/\\ '
     uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWZYX'
     lowercase = 'abcdefghijklmnopqrstuvwxyz'
     years = [str(i) for i in range(1900,2017)]
-    worst = '123456 password 12345678 qwerty 12345 123456789 football 1234 1234567 baseball welcome 1234567890 abc123 111111 1qaz2wsx dragon master monkey letmein login princess qwertyuiop solo passw0rd starwars'
+    worst = '123456 password 12345678 qwerty 12345 123456789 football 1234 1234567 baseball welcome 1234567890 ' \
+            'abc123 111111 1qaz2wsx dragon master monkey letmein login princess qwertyuiop solo passw0rd starwars'
     
-    strength = 0
+    password_strength = set()
     
     # check length
     if len(password) > 8:
-        strength += 1
+        password_strength.add('len8')
     if len(password) > 15:
-        strength += 1
+        password_strength.add('len15')
     if len(password) > 25:
-        strength += 1
+        password_strength.add('len25')
     
     # check if password in list of worst
     if password not in worst:
-        strength += 1
+        password_strength.add('password not in list of worst passwords')
 
     # check if there is any year in
     year_in_password = False
@@ -35,52 +37,29 @@ def get_password_strength(password):
         if year in password:
             year_in_password = True
     if year_in_password == False:
-        strength += 1
+        password_strength.add('no year in password')
         
-    # check for digits
+    # (devman) simplify:
     for letter in password:
         if letter in digits:
-            strength += 1
-            break
-    
-    # check for special letters
-    for letter in password:
+            password_strength.add('digit')
         if letter in special:
-            strength += 1
-            break
-    
-    # check for uppercase
-    for letter in password:
+            password_strength.add('special symbol')
         if letter in uppercase:
-            strength += 1
-            break
-    
-    # check for lowercase
-    for letter in password:
+            password_strength.add('uppercase')
         if letter in lowercase:
-            strength += 1
-            break
+            password_strength.add('lowercase')
             
     # check for repeating letter
-    maxreps = 0
-    repeats = 0
-    for i in range(0,len(password)):
-        for j in range(i+1,len(password)):
-            if password[i] == password[j]:
-                repeats += 1
-            else:
-                if maxreps < repeats:
-                    maxreps = repeats
-                repeats = 0
-                continue
-    if maxreps < 3:
-        strength += 1
-        
-    # print('reps:', maxreps)
+    repeats = Counter(password)
+    max_repeats = max(repeats.values())
+    if max_repeats < 5:
+        password_strength.add('no repeated symbols')
+    
     # print('%s strength: %d' % (password, strength))
-    return strength
+    return len(password_strength)
 
-def test():
+def test_passwords():
     print(get_password_strength('aaabc') )
     print(get_password_strength('Abc'))
     print(get_password_strength('Abc1'))
@@ -97,7 +76,7 @@ def test():
     print(get_password_strength('ah83H8hfs h78h2m87hm87asf29ma hjkdsfh782mhx98hsfho '))
     print(get_password_strength('aaaaab5'))
     print(get_password_strength('5555555555'))
-
+    print(get_password_strength('abcdefghijklmnOPQ73615409836rstu ^&*!$%)( xyz'))
 
 if __name__ == '__main__':
     pass

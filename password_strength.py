@@ -3,16 +3,14 @@ This script rates your password from 1 to 10.
 
 '''
 from collections import Counter
+import string
 
 def get_password_strength(password):
     '''
     This function returns an integer from 1 to 10 depending on a password strength.
     usage: get_password_strength(password)
     '''
-    digits = [str(i) for i in range(0,10)]
-    special = '!@#$%^&*()_+=-;|/?.,`~][{}/\\ '
-    uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWZYX'
-    lowercase = 'abcdefghijklmnopqrstuvwxyz'
+    #checklist = [string.digits, string.punctuation, string.ascii_lowercase, string.ascii_lowercase]
     years = [str(i) for i in range(1900,2017)]
     worst = '123456 password 12345678 qwerty 12345 123456789 football 1234 1234567 baseball welcome 1234567890 ' \
             'abc123 111111 1qaz2wsx dragon master monkey letmein login princess qwertyuiop solo passw0rd starwars'
@@ -41,14 +39,15 @@ def get_password_strength(password):
         
     # (devman) simplify:
     for letter in password:
-        if letter in digits:
+        if letter in string.digits:
             password_strength.add('digit')
-        if letter in special:
+        if letter in string.punctuation:
             password_strength.add('special symbol')
-        if letter in uppercase:
+        if letter in string.ascii_uppercase:
             password_strength.add('uppercase')
-        if letter in lowercase:
+        if letter in string.ascii_lowercase:
             password_strength.add('lowercase')
+   
             
     # check for repeating letter
     repeats = Counter(password)
@@ -59,7 +58,8 @@ def get_password_strength(password):
     # print('%s strength: %d' % (password, strength))
     return len(password_strength)
 
-def test_passwords():
+def main():
+    # check passwords
     print(get_password_strength('aaabc') )
     print(get_password_strength('Abc'))
     print(get_password_strength('Abc1'))
@@ -79,4 +79,4 @@ def test_passwords():
     print(get_password_strength('abcdefghijklmnOPQ73615409836rstu ^&*!$%)( xyz'))
 
 if __name__ == '__main__':
-    pass
+    main()

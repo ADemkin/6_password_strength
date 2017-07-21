@@ -3,7 +3,10 @@ import getpass
 
 
 def get_password_strength(password):
-    checklist = [r"\d",                         # contain digit
+    checklist = [r"(.){5,}",                    # length more than 5, 12 or 20
+                 r"(.){12,}",
+                 r"(.){20,}",
+                 r"\d",                         # contain digit
                  r"[^a-zA-Z0-9]",               # contain special symbol (not letter and not digit)
                  r"[a-z]",                      # contain lowercase letter
                  r"[A-Z]",                      # contain uppercase letter
@@ -14,13 +17,6 @@ def get_password_strength(password):
         worst_passwords = file.read()
     
     security_levels = []
-    
-    if len(password) > 5:
-        security_levels.append('len5')
-    if len(password) > 12:
-        security_levels.append('len12')
-    if len(password) > 20:
-        security_levels.append('len20')
     
     for regexp in checklist:
         if re.search(regexp, password) is not None:

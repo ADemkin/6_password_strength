@@ -7,8 +7,8 @@ antondemkin@yandex.ru
 # Usage:
 
 Before first launch you need to download actual list of worst passwords from [here](https://github.com/danielmiessler/SecLists/tree/master/Passwords)
-You need any file, for example 10_million_password_list_top_1000.txt.
-Rename it to passwords.txt and place into the same directory as script.
+You need any file, for example 10_million_password_list_top_1000.txt,
+rename it to **passwords.txt** and place into the same directory as script.
 
 How to run:
 ```

@@ -13,8 +13,7 @@ def get_password_strength(password):
                  r"^(?!.*(.)\1\1\1\1).*",       # does not contain symbols repeated more than 4 times
                  r"^(?!.*(1|2)(\d)(\d)(\d)).*"] # does not contain a year (four digits, started with 1 or 2)
     
-    with open('worst_passwords.txt', 'r') as file:
-        worst_passwords = file.read()
+    worst_passwords = load_worst_passwords()
     
     security_levels = []
     
@@ -26,6 +25,16 @@ def get_password_strength(password):
         security_levels.append('not in worst')
     
     return len(security_levels)
+
+def load_worst_passwords():
+    try:
+        with open('passwords1.txt', 'r') as file:
+            worst_passwords = file.read()
+        return worst_passwords
+    except FileNotFoundError:
+        print('Please put passwords.txt to script directory. Checking for worst passwords is disabled.')
+        return []
+
 
 
 def main():
